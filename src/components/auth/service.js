@@ -1,7 +1,4 @@
-import client, {
-  removeAuthorizationHeader,
-  setAuthorizationHeader,
-} from '../../api/client';
+import client, { removeAuthorizationHeader, setAuthorizationHeader } from '../../api/client';
 import storage from '../../utils/storage';
 
 export const login = (credentials, handleLogin) => {
@@ -10,7 +7,7 @@ export const login = (credentials, handleLogin) => {
     if (credentials.remind) {
       storage.set('authentication', accessToken);
     }
-    handleLogin();
+    // handleLogin();
   });
 };
 

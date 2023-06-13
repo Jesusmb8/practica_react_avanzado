@@ -1,11 +1,16 @@
 import { Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../auth/context';
 import { logout } from '../auth/service';
 import './Header.css';
 import { ReactComponent as ReactLogo } from '../../assets/logo-wallapop.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { authLogout } from '../../store/actions';
+import { getIsLogged } from '../../store/selectors';
 
 const Header = (...rest) => {
-  const { isLogged, onLogout } = useAuth();
+  const isLogged = useSelector(getIsLogged);
+  const dispatch = useDispatch();
+
+  const onLogout = () => dispatch(authLogout());
 
   const handleLogoutClick = async () => {
     if (window.confirm('¿Quiere cerrar sesión?')) {
@@ -32,12 +37,7 @@ const Header = (...rest) => {
               Logout
             </button>
           ) : (
-            <button
-              as={Link}
-              variant='primary'
-              className='header-button'
-              to='/login'
-            >
+            <button as={Link} variant='primary' className='header-button' to='/login'>
               Login
             </button>
           )}

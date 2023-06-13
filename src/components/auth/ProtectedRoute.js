@@ -1,11 +1,12 @@
-import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "./context";
+import { useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
+import { getIsLogged } from '../../store/selectors';
 
 const ProtectedRoute = ({ children }) => {
-  const { isLogged } = useAuth();
+  const isLogged = useSelector(getIsLogged);
   const location = useLocation();
   if (!isLogged) {
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to='/login' state={{ from: location }} />;
   }
   return children;
 };

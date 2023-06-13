@@ -1,12 +1,13 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { authLogin } from '../../store/actions';
 import Layout from '../layout/Layout';
 import './LoginPage.css';
-import { useAuth } from './context';
 import { login } from './service';
 
 const LoginPage = () => {
-  const { onLogin } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: '',
@@ -20,9 +21,12 @@ const LoginPage = () => {
       [event.target.name]: event.target.value,
     });
   };
+  const onLogin = () => dispatch(authLogin());
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await login(credentials, onLogin);
+    await login(credentials);
+    onLogin();
     navigate('/adverts');
   };
 
@@ -35,14 +39,7 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit} className='login'>
           <div className='element-form'>
             <label for='email'>Email</label>
-            <input
-              id='email'
-              name='email'
-              type='text'
-              required
-              onChange={handleChange}
-              value={credentials.username}
-            />
+            <input id='email' name='email' type='text' required onChange={handleChange} value={credentials.username} />
           </div>
           <div className='element-form'>
             <label for='password'>Password</label>
@@ -57,13 +54,7 @@ const LoginPage = () => {
           </div>
           <div className='margin10 '>
             <label for='remind'>Recordarme</label>
-            <input
-              id='remind'
-              name='remind'
-              type='checkbox'
-              onChange={handleChange}
-              value={credentials.remind}
-            />
+            <input id='remind' name='remind' type='checkbox' onChange={handleChange} value={credentials.remind} />
           </div>
           <div className='element-form'>
             <button type='submit' disabled={buttonDisabled}>

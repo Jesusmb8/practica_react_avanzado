@@ -1,28 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import Root from './Root';
 import { setAuthorizationHeader } from './api/client';
-import { AuthContextProvider } from './components/auth/context';
 import './css/Reset.css';
-import './index.css';
 import './css/Styles.css';
+import './index.css';
 import reportWebVitals from './reportWebVitals';
+import configureStore from './store';
 import storage from './utils/storage';
 
 const accessToken = storage.get('authentication');
 if (accessToken) {
   setAuthorizationHeader(accessToken);
 }
+const store = configureStore({ auth: !!accessToken });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthContextProvider isInitiallyLogged={!!accessToken}>
-        <App />
-      </AuthContextProvider>
-    </BrowserRouter>
+    <Root store={store}>
+      <App />
+    </Root>
   </React.StrictMode>
 );
 

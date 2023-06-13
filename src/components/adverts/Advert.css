@@ -1,0 +1,33 @@
+.advert {
+    border: 1px solid black;
+    border-radius: 20px;
+    margin: 20px 0;
+    padding: 20px;
+}
+
+img.anuncio {
+    max-width: 30px;
+    max-width: 30px;
+    text-align: center;
+}
+
+.title {
+    font-size: 2em;
+}
+
+.price {
+    font-weight: bold;
+}
+
+.color-green {
+    color: green;
+}
+
+.color-blue {
+    color: blue;
+}
+
+.img-detail {
+    max-width: 100%;
+    max-height: 100%;
+}

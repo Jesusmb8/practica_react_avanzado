@@ -1,0 +1,28 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    gap: 20px;
+    align-items: center;
+}
+
+a.link {
+    color: #12C1AB;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    gap: 20px;
+}
+
+.tag {
+    font-style: italic;
+}

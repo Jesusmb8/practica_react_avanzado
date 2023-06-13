@@ -14,7 +14,7 @@ const accessToken = storage.get('authentication');
 if (accessToken) {
   setAuthorizationHeader(accessToken);
 }
-const store = configureStore({ auth: !!accessToken });
+const store = configureStore({ auth: !!accessToken, advertisements: [] });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

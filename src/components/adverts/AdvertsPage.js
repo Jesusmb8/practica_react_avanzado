@@ -3,9 +3,11 @@ import Layout from '../layout/Layout';
 import { getAdverts } from './service';
 import { Link } from 'react-router-dom';
 import Advert from './Advert';
+import { connect } from 'react-redux';
+import { getAdvertisements } from '../../store/selectors';
+import { advertisementsLoaded } from '../../store/actions';
 
-const AdvertsPage = () => {
-  const [adverts, setAdverts] = useState([]);
+const AdvertsPage = ({ advertisements, onAdvertisementsLoaded }) => {
   const [filterName, setFilterName] = useState('');
   const [filterType, setFilterType] = useState('todos');
   const [isLoading, setIsLoading] = useState(true);
@@ -14,21 +16,19 @@ const AdvertsPage = () => {
     async function fetchData() {
       setIsLoading(true);
       const advertsResponse = await getAdverts();
-      setAdverts(advertsResponse);
+      onAdvertisementsLoaded(advertsResponse);
       setIsLoading(false);
     }
 
     fetchData();
   }, []);
 
-  let filteredAdverts = adverts.filter((advert) =>
+  let filteredAdverts = advertisements.filter((advert) =>
     (advert.name ?? '').toUpperCase().includes(filterName.toUpperCase())
   );
   if (filterType !== 'todos') {
     const isSale = filterType === 'sale';
-    filteredAdverts = filteredAdverts.filter(
-      (advert) => advert.sale === isSale
-    );
+    filteredAdverts = filteredAdverts.filter((advert) => advert.sale === isSale);
   }
 
   return (
@@ -100,4 +100,11 @@ const AdvertsPage = () => {
   );
 };
 
-export default AdvertsPage;
+const mapStateToProps = (state) => ({
+  advertisements: getAdvertisements(state),
+});
+const mapDispatchToProps = (dispatch) => ({
+  onAdvertisementsLoaded: (advertisements) => dispatch(advertisementsLoaded(advertisements)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdvertsPage);

@@ -1,16 +1,16 @@
-import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import Layout from '../layout/Layout';
-import { deleteAdvert } from './service';
-import './Advert.css';
-import { useSelector } from 'react-redux';
+import { advertismentsDelete } from '../../store/actions';
 import { getAdvert } from '../../store/selectors';
+import Layout from '../layout/Layout';
+import './Advert.css';
 
 function AdvertsPage() {
   const params = useParams();
   const navigate = useNavigate();
   // const [advert, setAdvert] = useState([]);
   const advert = useSelector(getAdvert(params.advertId));
+  const dispatch = useDispatch();
 
   // useEffect(() => {
   //   async function getData() {
@@ -29,7 +29,8 @@ function AdvertsPage() {
   const handleDelete = async () => {
     if (window.confirm('¿Está seguro de eliminar el anuncio?')) {
       try {
-        await deleteAdvert(params.advertId);
+        // await deleteAdvert(params.advertId);
+        dispatch(advertismentsDelete(params.advertId));
         navigate('/adverts');
       } catch (error) {
         navigate('/404');

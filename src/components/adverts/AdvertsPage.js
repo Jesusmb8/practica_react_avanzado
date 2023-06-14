@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import Layout from '../layout/Layout';
-import { getAdverts } from './service';
-import { Link } from 'react-router-dom';
-import Advert from './Advert';
 import { connect } from 'react-redux';
-import { getAdvertisements } from '../../store/selectors';
+import { Link } from 'react-router-dom';
 import { advertisementsLoaded } from '../../store/actions';
+import { getAdvertisements } from '../../store/selectors';
+import Layout from '../layout/Layout';
+import Advert from './Advert';
+import { getAdverts } from './service';
 
 const AdvertsPage = ({ advertisements, onAdvertisementsLoaded }) => {
   const [filterName, setFilterName] = useState('');

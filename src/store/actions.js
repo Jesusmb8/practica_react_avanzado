@@ -1,6 +1,7 @@
 import {
   ADVERTISEMENTS_LOADED,
   ADVERTISEMENT_DELETE,
+  ADVERTISEMENT_DELETE_SUCCESSS,
   ADVERTISEMENT_NEW_FAILURE,
   ADVERTISEMENT_NEW_REQUEST,
   ADVERTISEMENT_NEW_SUCCESSS,
@@ -28,6 +29,10 @@ export const advertismentsNewSuccess = (ad) => ({
   type: ADVERTISEMENT_NEW_SUCCESSS,
   payload: ad,
 });
+export const advertismentsDeleteSuccess = (advertId) => ({
+  type: ADVERTISEMENT_DELETE_SUCCESSS,
+  payload: advertId,
+});
 export const advertismentsNewFailure = (error) => ({
   type: ADVERTISEMENT_NEW_FAILURE,
   error: true,
@@ -44,6 +49,20 @@ export const advertCreate =
       dispatch(advertismentsNewSuccess(advertResponse));
 
       return advertResponse;
+    } catch (error) {
+      dispatch(advertismentsNewFailure(error));
+      throw error;
+    }
+  };
+
+export const advertDelete =
+  (advertId) =>
+  async (dispatch, _getState, { adverts: advertisementService }) => {
+    dispatch(advertismentsNewRequest());
+    try {
+      await advertisementService.deleteAdvert(advertId);
+      dispatch(advertismentsDeleteSuccess(advertId));
+      return;
     } catch (error) {
       dispatch(advertismentsNewFailure(error));
       throw error;

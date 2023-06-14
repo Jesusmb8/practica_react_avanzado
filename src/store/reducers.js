@@ -1,6 +1,7 @@
 import {
   ADVERTISEMENTS_LOADED,
   ADVERTISEMENT_DELETE,
+  ADVERTISEMENT_DELETE_SUCCESSS,
   ADVERTISEMENT_NEW_FAILURE,
   ADVERTISEMENT_NEW_SUCCESSS,
   AUTH_LOGIN_SUCCESS,
@@ -11,6 +12,7 @@ export const defaultState = {
   auth: false,
   advertisements: [],
   tags: [],
+  ui: false,
 };
 
 export function auth(state = defaultState.auth, action) {
@@ -27,7 +29,7 @@ export function advertisements(state = defaultState.advertisements, action) {
   switch (action.type) {
     case ADVERTISEMENTS_LOADED:
       return action.payload;
-    case ADVERTISEMENT_DELETE:
+    case ADVERTISEMENT_DELETE_SUCCESSS:
       const ads = state.filter((ad) => ad.id !== action.payload);
       return ads;
     case ADVERTISEMENT_NEW_SUCCESSS:

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { advertismentsDelete } from '../../store/actions';
+import { advertDelete, advertismentsDelete } from '../../store/actions';
 import { getAdvert } from '../../store/selectors';
 import Layout from '../layout/Layout';
 import './Advert.css';
@@ -29,8 +29,7 @@ function AdvertsPage() {
   const handleDelete = async () => {
     if (window.confirm('¿Está seguro de eliminar el anuncio?')) {
       try {
-        // await deleteAdvert(params.advertId);
-        dispatch(advertismentsDelete(params.advertId));
+        await dispatch(advertDelete(params.advertId));
         navigate('/adverts');
       } catch (error) {
         navigate('/404');

@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { advertCreate } from '../../store/actions';
+import { advertCreate, getAllTags } from '../../store/actions';
 import Layout from '../layout/Layout';
-import { getTags } from './service';
 
 const NewAdvertPage = () => {
   const dispatch = useDispatch();
@@ -21,13 +20,13 @@ const NewAdvertPage = () => {
     async function getData() {
       setIsLoading(true);
       try {
-        const tagsQuery = await getTags();
+        const tagsQuery = await dispatch(getAllTags());
         setTags(tagsQuery);
       } catch (error) {}
       setIsLoading(false);
     }
     getData();
-  }, []);
+  }, [dispatch]);
   const handleChange = (event) => {
     setAdvert({
       ...advert,

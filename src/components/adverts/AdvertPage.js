@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { advertDelete, advertismentsDelete } from '../../store/actions';
+import { advertDelete } from '../../store/actions';
 import { getAdvert } from '../../store/selectors';
 import Layout from '../layout/Layout';
 import './Advert.css';

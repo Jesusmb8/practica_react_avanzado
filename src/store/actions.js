@@ -1,12 +1,16 @@
 import {
   ADVERTISEMENTS_LOADED,
   ADVERTISEMENT_DELETE,
+  ADVERTISEMENT_DELETE_FAILURE,
   ADVERTISEMENT_DELETE_SUCCESSS,
   ADVERTISEMENT_NEW_FAILURE,
   ADVERTISEMENT_NEW_REQUEST,
   ADVERTISEMENT_NEW_SUCCESSS,
   AUTH_LOGIN_SUCCESS,
   AUTH_LOGOUT,
+  GET_TAGS_FAILURE,
+  GET_TAGS_REQUEST,
+  GET_TAGS_SUCCESS,
 } from './types';
 
 export const authLogin = () => ({ type: AUTH_LOGIN_SUCCESS });
@@ -38,13 +42,18 @@ export const advertismentsNewFailure = (error) => ({
   error: true,
   payload: error,
 });
+export const advertismentsDeleteFailure = (error) => ({
+  type: ADVERTISEMENT_DELETE_FAILURE,
+  error: true,
+  payload: error,
+});
 
 export const advertCreate =
   (advert) =>
-  async (dispatch, _getState, { adverts: advertisementService }) => {
+  async (dispatch, _getState, { advertsService }) => {
     dispatch(advertismentsNewRequest());
     try {
-      const advertResponse = await advertisementService.createAdvert(advert);
+      const advertResponse = await advertsService.createAdvert(advert);
 
       dispatch(advertismentsNewSuccess(advertResponse));
 
@@ -57,14 +66,40 @@ export const advertCreate =
 
 export const advertDelete =
   (advertId) =>
-  async (dispatch, _getState, { adverts: advertisementService }) => {
+  async (dispatch, _getState, { advertsService }) => {
     dispatch(advertismentsNewRequest());
     try {
-      await advertisementService.deleteAdvert(advertId);
+      await advertsService.deleteAdvert(advertId);
       dispatch(advertismentsDeleteSuccess(advertId));
       return;
     } catch (error) {
-      dispatch(advertismentsNewFailure(error));
+      dispatch(advertismentsDeleteFailure(error));
+      throw error;
+    }
+  };
+
+export const getTagsRequest = () => ({
+  type: GET_TAGS_REQUEST,
+});
+export const getTagsSuccess = (tags) => ({
+  type: GET_TAGS_SUCCESS,
+  payload: tags,
+});
+export const getTagsFailure = (error) => ({
+  type: GET_TAGS_FAILURE,
+  error: true,
+  payload: error,
+});
+export const getAllTags =
+  () =>
+  async (dispatch, _getState, { advertsService }) => {
+    dispatch(getTagsRequest());
+    try {
+      const tags = await advertsService.getTags();
+      dispatch(getTagsSuccess(tags));
+      return tags;
+    } catch (error) {
+      dispatch(getTagsFailure(error));
       throw error;
     }
   };

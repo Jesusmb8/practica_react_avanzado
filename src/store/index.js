@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import * as reducers from './reducers';
 import * as actionCreators from './actions';
-import * as adverts from '../components/adverts/service';
+import * as advertsService from '../components/adverts/service';
 
 import thunk from 'redux-thunk';
 
@@ -14,7 +14,7 @@ const composeEnhancers = composeWithDevTools({
   actionCreators,
 });
 
-const middleware = [thunk.withExtraArgument({ adverts })];
+const middleware = [thunk.withExtraArgument({ advertsService })];
 
 export default function configureStore(preloadedState) {
   const store = createStore(reducer, preloadedState, composeEnhancers(applyMiddleware(...middleware)));
